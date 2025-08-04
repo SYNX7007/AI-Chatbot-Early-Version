@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ankit Solutions - AI Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="login-page" class="page active">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <h1>Ankit Solutions</h1>
+                    <p>Internal AI Assistant</p>
+                </div>
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" id="username" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Sign In</button>
+                    <div id="login-error" class="login-error hidden"></div>
+                </form>
+                <div class="login-demo-accounts">
+                    <h6>Demo Accounts:</h6>
+                    <p><strong>Admin:</strong> admin / admin123</p>
+                    <p><strong>Finance:</strong> finance_user / finance123</p>
+                    <p><strong>Tax:</strong> tax_user / tax123</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard-page" class="page hidden">
+        <div class="dashboard-layout">
+            <!-- Sidebar Navigation -->
+            <nav class="sidebar">
+                <div class="sidebar-header">
+                    <h2>Ankit AI</h2>
+                    <div class="user-info">
+                        <span id="user-name">User Name</span>
+                        <span id="user-role" class="status status--info">Role</span>
+                    </div>
+                </div>
+                
+                <div class="sidebar-nav">
+                    <button class="nav-item active" data-section="chat">
+                        <span>💬</span> Chat Assistant
+                    </button>
+                    <button class="nav-item admin-only" data-section="departments">
+                        <span>🏢</span> Departments
+                    </button>
+                    <button class="nav-item admin-only" data-section="users">
+                        <span>👥</span> Users
+                    </button>
+                    <button class="nav-item admin-only" data-section="analytics">
+                        <span>📊</span> Analytics
+                    </button>
+                    <button class="nav-item" data-section="settings">
+                        <span>⚙️</span> Settings
+                    </button>
+                </div>
+                
+                <div class="sidebar-footer">
+                    <button id="logout-btn" class="btn btn--outline btn--full-width">
+                        Logout
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Main Content Area -->
+            <main class="main-content">
+                <!-- Chat Section -->
+                <div id="chat-section" class="content-section active">
+                    <div class="chat-layout">
+                        <!-- Conversation History Sidebar -->
+                        <div class="conversations-sidebar">
+                            <div class="conversations-header">
+                                <h3>Conversations</h3>
+                                <button id="new-chat-btn" class="btn btn--primary btn--sm">New Chat</button>
+                            </div>
+                            <div class="conversations-list" id="conversations-list">
+                                <!-- Conversations will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Chat Interface -->
+                        <div class="chat-interface">
+                            <div class="chat-header">
+                                <h3 id="current-chat-title">New Conversation</h3>
+                                <div class="chat-controls">
+                                    <select id="department-select" class="form-control">
+                                        <option value="">Select Department</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-messages" id="chat-messages">
+                                <div class="welcome-message">
+                                    <h4>Welcome to Ankit AI Assistant</h4>
+                                    <p>Select a department and start asking questions about company-specific topics.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-input-container">
+                                <div class="chat-input">
+                                    <textarea id="message-input" placeholder="Ask a question about company data..." rows="1"></textarea>
+                                    <button id="send-btn" class="btn btn--primary" disabled>
+                                        <span>Send</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Departments Section (Admin Only) -->
+                <div id="departments-section" class="content-section hidden">
+                    <div class="section-header">
+                        <h2>Department Management</h2>
+                        <button id="add-department-btn" class="btn btn--primary">Add Department</button>
+                    </div>
+                    <div class="departments-grid" id="departments-grid">
+                        <!-- Departments will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Users Section (Admin Only) -->
+                <div id="users-section" class="content-section hidden">
+                    <div class="section-header">
+                        <h2>User Management</h2>
+                        <button id="add-user-btn" class="btn btn--primary">Add User</button>
+                    </div>
+                    <div class="users-table" id="users-table">
+                        <!-- Users will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Analytics Section (Admin Only) -->
+                <div id="analytics-section" class="content-section hidden">
+                    <div class="section-header">
+                        <h2>Analytics & Logs</h2>
+                    </div>
+                    <div class="analytics-content">
+                        <div class="analytics-stats">
+                            <div class="stat-card">
+                                <h4>Total Conversations</h4>
+                                <span id="total-conversations">0</span>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Active Users</h4>
+                                <span id="active-users">0</span>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Blocked Prompts</h4>
+                                <span id="blocked-prompts">0</span>
+                            </div>
+                        </div>
+                        <div class="recent-activity">
+                            <h3>Recent Activity</h3>
+                            <div id="activity-log">
+                                <!-- Activity log will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="settings-section" class="content-section hidden">
+                    <div class="section-header">
+                        <h2>Settings</h2>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-group">
+                            <h3>Appearance</h3>
+                            <div class="setting-item">
+                                <label for="theme-toggle">Theme</label>
+                                <button id="theme-toggle" class="btn btn--outline">Toggle Dark Mode</button>
+                            </div>
+                        </div>
+                        <div class="settings-group admin-only">
+                            <h3>System Configuration</h3>
+                            <div class="setting-item">
+                                <label for="company-name">Company Name</label>
+                                <input type="text" id="company-name" class="form-control" value="Ankit Solutions">
+                            </div>
+                            <div class="setting-item">
+                                <label for="session-timeout">Session Timeout (minutes)</label>
+                                <input type="number" id="session-timeout" class="form-control" value="60">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal for Department Creation/Editing -->
+    <div id="department-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="department-modal-title">Add Department</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="department-form" class="modal-body">
+                <div class="form-group">
+                    <label for="dept-name" class="form-label">Department Name</label>
+                    <input type="text" id="dept-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="dept-description" class="form-label">Description</label>
+                    <textarea id="dept-description" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="dept-context" class="form-label">AI Context</label>
+                    <textarea id="dept-context" class="form-control" rows="4" placeholder="Define what the AI should focus on for this department..."></textarea>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn--outline modal-close">Cancel</button>
+                <button type="submit" form="department-form" class="btn btn--primary">Save Department</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for User Creation/Editing -->
+    <div id="user-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="user-modal-title">Add User</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="user-form" class="modal-body">
+                <div class="form-group">
+                    <label for="user-username" class="form-label">Username</label>
+                    <input type="text" id="user-username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-name" class="form-label">Full Name</label>
+                    <input type="text" id="user-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-password" class="form-label">Password</label>
+                    <input type="password" id="user-password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-role" class="form-label">Role</label>
+                    <select id="user-role" class="form-control" required>
+                        <option value="">Select Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="finance">Finance</option>
+                        <option value="tax">Tax</option>
+                        <option value="hr">HR</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="user-departments" class="form-label">Departments</label>
+                    <div id="user-departments" class="checkbox-group">
+                        <!-- Department checkboxes will be populated by JavaScript -->
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn--outline modal-close">Cancel</button>
+                <button type="submit" form="user-form" class="btn btn--primary">Save User</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+# Ignore backend environment file
+/backend/.env
+
+# Ignore Python bytecode and cache
+**/__pycache__/
+/backend/**/*.py[cod]
+**/*.py[cod]
+
+# Ignore backend virtual environment folders
+/backend/venv/
+/backend/env/
+/backend/.venv/
+
+# Ignore backend logs and databases
+/backend/*.log
+/backend/*.sqlite3
+/backend/*.db
+
+# Ignore IDE/editor files
+**/.idea/
+/backend/.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
